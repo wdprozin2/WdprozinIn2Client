@@ -7,3 +7,5 @@ github_token.txt
 keygen.py
 *.key
 license.key
+
+src/
