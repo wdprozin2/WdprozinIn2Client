@@ -1,0 +1,6 @@
+bin/
+*.class
+*.tmp
+*.log
+*.env
+github_token.txt
