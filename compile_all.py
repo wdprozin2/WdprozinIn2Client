@@ -23,7 +23,9 @@ files_to_compile = [
     os.path.join(scratch, "src", "us", "whitedev", "gui", "clickgui", "components", "LeftPanelComponent.java"),
     os.path.join(scratch, "src", "us", "whitedev", "gui", "clickgui", "ClickGui.java"),
     os.path.join(scratch, "src", "us", "whitedev", "updater", "AutoUpdater.java"),
-    os.path.join(scratch, "src", "us", "whitedev", "commands", "impl", "UpdateCommand.java")
+    os.path.join(scratch, "src", "us", "whitedev", "commands", "impl", "UpdateCommand.java"),
+    os.path.join(scratch, "src", "us", "whitedev", "security", "LicenseManager.java"),
+    os.path.join(scratch, "src", "us", "whitedev", "Main2PacketsClient.java")
 ]
 
 print("Compiling modified source files...")

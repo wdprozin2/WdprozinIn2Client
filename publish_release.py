@@ -23,13 +23,24 @@ def publish_release(tag="v6.2", title="WdprozinIn2Client v6.2", body="Release of
         "User-Agent": "Wdprozin-Release-Publisher"
     }
 
+    import hashlib
+    jar_sha256 = ""
+    if os.path.exists(JAR_PATH):
+        h = hashlib.sha256()
+        with open(JAR_PATH, "rb") as f:
+            while chunk := f.read(65536):
+                h.update(chunk)
+        jar_sha256 = h.hexdigest()
+
+    full_body = body + f"\n\n### 🔒 Official Build Verification (SHA-256)\n```\n{jar_sha256}\n```\n\n> ℹ️ Verify authenticity by checking this hash before running."
+
     # 1. Create Release
     create_url = f"https://api.github.com/repos/{REPO}/releases"
     payload = {
         "tag_name": tag,
         "target_commitish": "main",
         "name": title,
-        "body": body,
+        "body": full_body,
         "draft": False,
         "prerelease": False
     }

@@ -101,27 +101,30 @@ public class Main2PacketsClient {
     }
 
     public void start() {
+        // Enforce cryptographic license verification before starting
+        us.whitedev.security.LicenseManager.getInstance().verify();
+
         try {
             ViaMCP.create();
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-        Minecraft.LOGGER.info("Main2PacketsClient Initialization...");
+        Minecraft.LOGGER.info("WdprozinIn2Client Initialization...");
         this.initializeClient();
         new Thread(ClickGui::initGui).start();
     }
 
     private void initializeClient() {
         Minecraft.LOGGER.info("Registration Commands...");
-        CommandManager.getManager().addCommands(new StopCommand(), new AuthorsCommand(), new HelpCommand(), new CrashCommand(), new ExploitCommand(), new BypassListCommand(), new FakeGmCommand(), new DetectCommand(), new ProxyCommand(), new ConfigCommand(), new Socks5Command());
+        CommandManager.getManager().addCommands(new StopCommand(), new AuthorsCommand(), new HelpCommand(), new CrashCommand(), new ExploitCommand(), new BypassListCommand(), new FakeGmCommand(), new DetectCommand(), new ProxyCommand(), new ConfigCommand());
         Minecraft.LOGGER.info("Registration Crash Methods...");
         try {
-            ArrayList instances = new ArrayList();
+            ArrayList<Crasher> instances = new ArrayList<>();
             for (Class<?> cls : ClasspathScanner.getClassesInPackage("us.whitedev.crashers.impl")) {
                 if (!Crasher.class.isAssignableFrom(cls) || cls.isInterface()) continue;
                 try {
-                    Object inst = cls.getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
+                    Crasher inst = (Crasher) cls.getDeclaredConstructor(new Class[0]).newInstance(new Object[0]);
                     instances.add(inst);
                 }
                 catch (NoSuchMethodException ignored) {
