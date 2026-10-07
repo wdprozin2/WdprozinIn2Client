@@ -65,7 +65,7 @@ public class AutoUpdater {
     public void saveConfig() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(this.configFile))) {
             writer.println("# WdprozinIn2Client AutoUpdater Configuration");
-            writer.println("# Defina seu repositorio do GitHub no formato dono/repositorio");
+            writer.println("# Set your GitHub repository in owner/repo format");
             writer.println("repo=" + this.repo);
             writer.println("check_on_start=" + this.checkOnStart);
         } catch (Exception e) {
@@ -87,13 +87,13 @@ public class AutoUpdater {
     public void checkAndUpdate(boolean userTriggered) {
         if (this.isUpdating) {
             if (userTriggered) {
-                this.messageHelper.sendMessage("&eJa existe uma verificacao ou download de atualizacao em andamento!", true);
+                this.messageHelper.sendMessage("&eAn update check or download is already in progress!", true);
             }
             return;
         }
         this.isUpdating = true;
         if (userTriggered) {
-            this.messageHelper.sendMessage("&7Buscando atualizacoes no GitHub (&b" + this.repo + "&7)...", true);
+            this.messageHelper.sendMessage("&7Checking for updates on GitHub (&b" + this.repo + "&7)...", true);
         }
 
         CompletableFuture.runAsync(() -> {
@@ -109,14 +109,14 @@ public class AutoUpdater {
                 int responseCode = conn.getResponseCode();
                 if (responseCode == 404) {
                     if (userTriggered) {
-                        this.messageHelper.sendMessage("&cNenhuma release encontrada no repositorio &f" + this.repo + "&c!", true);
-                        this.messageHelper.sendMessage("&7Configure o repositorio correto no arquivo &exynis_updater.txt&7.", true);
+                        this.messageHelper.sendMessage("&cNo releases found for repository &f" + this.repo + "&c!", true);
+                        this.messageHelper.sendMessage("&7Configure the correct repository in &exynis_updater.txt&7.", true);
                     }
                     this.isUpdating = false;
                     return;
                 } else if (responseCode != 200) {
                     if (userTriggered) {
-                        this.messageHelper.sendMessage("&cErro ao verificar atualizacoes (HTTP " + responseCode + ").", true);
+                        this.messageHelper.sendMessage("&cError checking updates (HTTP " + responseCode + ").", true);
                     }
                     this.isUpdating = false;
                     return;
@@ -132,13 +132,13 @@ public class AutoUpdater {
 
                 if (cleanTag.isEmpty() || cleanTag.equalsIgnoreCase(CURRENT_VERSION)) {
                     if (userTriggered) {
-                        this.messageHelper.sendMessage("&aVoce ja esta usando a versao mais recente (&f" + CURRENT_VERSION + "&a)!", true);
+                        this.messageHelper.sendMessage("&aYou are already on the latest version (&f" + CURRENT_VERSION + "&a)!", true);
                     }
                     this.isUpdating = false;
                     return;
                 }
 
-                this.messageHelper.sendMessage("&aNova versao encontrada: &e" + tagName + " &a(atual: &7" + CURRENT_VERSION + "&a)!", true);
+                this.messageHelper.sendMessage("&aNew update available: &e" + tagName + " &a(current: &7" + CURRENT_VERSION + "&a)!", true);
 
                 // Find JAR asset
                 String downloadUrl = null;
@@ -157,15 +157,15 @@ public class AutoUpdater {
                 }
 
                 if (downloadUrl == null) {
-                    this.messageHelper.sendMessage("&eA release possui novidades, mas nenhum arquivo .jar foi anexado para download.", true);
+                    this.messageHelper.sendMessage("&eRelease found, but no .jar asset was found for download.", true);
                     if (json.has("html_url")) {
-                        this.messageHelper.sendMessage("&7Acesse: &b" + json.get("html_url").getAsString(), true);
+                        this.messageHelper.sendMessage("&7Visit: &b" + json.get("html_url").getAsString(), true);
                     }
                     this.isUpdating = false;
                     return;
                 }
 
-                this.messageHelper.sendMessage("&7Baixando atualizacao (&b" + assetName + "&7)...", true);
+                this.messageHelper.sendMessage("&7Downloading update (&b" + assetName + "&7)...", true);
                 File targetFile = new File("Xynis_update.jar");
 
                 HttpURLConnection dlConn = (HttpURLConnection) new URL(downloadUrl).openConnection();
@@ -192,11 +192,11 @@ public class AutoUpdater {
                 out.close();
                 in.close();
 
-                this.messageHelper.sendMessage("&aAtualizacao baixada com sucesso!", true);
-                this.messageHelper.sendMessage("&eReinicie o jogo pelo start.bat para aplicar a nova versao!", true);
+                this.messageHelper.sendMessage("&aUpdate downloaded successfully!", true);
+                this.messageHelper.sendMessage("&eRestart the client via start.bat to apply the update!", true);
             } catch (Exception e) {
                 if (userTriggered) {
-                    this.messageHelper.sendMessage("&cErro ao baixar atualizacao: &f" + e.getMessage(), true);
+                    this.messageHelper.sendMessage("&cError downloading update: &f" + e.getMessage(), true);
                 }
                 e.printStackTrace();
             } finally {

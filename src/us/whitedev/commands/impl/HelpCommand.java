@@ -23,7 +23,7 @@ implements Command {
         msgHelper.sendMessage("fakegm &8- &fSpoof GameMode for Your Session", true);
         msgHelper.sendMessage("detect &8- &fDetect AntiCrash on Server", true);
         msgHelper.sendMessage("proxy &8- &fManipulate bots/proxy settings", true);
-        msgHelper.sendMessage("socks5 &8- &fConfigure and toggle SOCKS5 proxy", true);
+        msgHelper.sendMessage("update &8- &fCheck and download client updates from GitHub", true);
         msgHelper.sendMessage("loadconfig &8- &fLoad Configs for Crashers/Exploits", true);
         msgHelper.sendSeparateLine();
     }

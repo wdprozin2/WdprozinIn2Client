@@ -16,7 +16,7 @@ public class UpdateCommand implements Command {
     public void onCommand(String[] args) {
         if (args.length >= 3 && args[1].equalsIgnoreCase("repo")) {
             this.updater.setRepo(args[2]);
-            msgHelper.sendMessage("&aRepositorio de atualizacao definido para: &f" + args[2], true);
+            msgHelper.sendMessage("&aUpdate repository set to: &f" + args[2], true);
             return;
         }
         this.updater.checkAndUpdate(true);

@@ -127,29 +127,29 @@ public class VpnRenderer {
         Label hostLabel = new Label("Host / IP:");
         hostLabel.setStyle("-fx-text-fill: rgba(220, 220, 220, 0.9); -fx-font-weight: bold; -fx-font-size: 12px;");
         TextField hostField = new TextField(this.socks5.getHost() == null ? "" : this.socks5.getHost());
-        hostField.setPromptText("ex: 127.0.0.1 ou proxy.exemplo.com");
+        hostField.setPromptText("e.g. 127.0.0.1 or proxy.example.com");
         hostField.setPrefWidth(260.0);
         hostField.setStyle(this.inputStyle);
 
-        Label portLabel = new Label("Porta:");
+        Label portLabel = new Label("Port:");
         portLabel.setStyle("-fx-text-fill: rgba(220, 220, 220, 0.9); -fx-font-weight: bold; -fx-font-size: 12px;");
         TextField portField = new TextField(this.socks5.getPort() > 0 ? String.valueOf(this.socks5.getPort()) : "1080");
-        portField.setPromptText("ex: 1080");
+        portField.setPromptText("e.g. 1080");
         portField.setPrefWidth(120.0);
         portField.setStyle(this.inputStyle);
 
-        Label userLabel = new Label("Usuário (opcional):");
+        Label userLabel = new Label("Username (optional):");
         userLabel.setStyle("-fx-text-fill: rgba(220, 220, 220, 0.9); -fx-font-weight: bold; -fx-font-size: 12px;");
         TextField userField = new TextField(this.socks5.getUsername() == null ? "" : this.socks5.getUsername());
-        userField.setPromptText("Usuário do proxy");
+        userField.setPromptText("Proxy username");
         userField.setPrefWidth(260.0);
         userField.setStyle(this.inputStyle);
 
-        Label passLabel = new Label("Senha (opcional):");
+        Label passLabel = new Label("Password (optional):");
         passLabel.setStyle("-fx-text-fill: rgba(220, 220, 220, 0.9); -fx-font-weight: bold; -fx-font-size: 12px;");
         PasswordField passField = new PasswordField();
         passField.setText(this.socks5.getPassword() == null ? "" : this.socks5.getPassword());
-        passField.setPromptText("Senha do proxy");
+        passField.setPromptText("Proxy password");
         passField.setPrefWidth(260.0);
         passField.setStyle(this.inputStyle);
 
@@ -166,17 +166,17 @@ public class VpnRenderer {
         feedbackLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: bold;");
 
         HBox s5Buttons = new HBox(10.0);
-        Button saveAndEnableBtn = new Button("Salvar e Ativar");
+        Button saveAndEnableBtn = new Button("Save & Enable");
         saveAndEnableBtn.setStyle(this.primaryButtonStyle);
         saveAndEnableBtn.setOnMouseEntered(ev -> saveAndEnableBtn.setStyle(this.primaryButtonHoverStyle));
         saveAndEnableBtn.setOnMouseExited(ev -> saveAndEnableBtn.setStyle(this.primaryButtonStyle));
 
-        Button toggleBtn = new Button(this.socks5.isEnabled() ? "Desativar Proxy" : "Ativar Proxy");
+        Button toggleBtn = new Button(this.socks5.isEnabled() ? "Disable Proxy" : "Enable Proxy");
         toggleBtn.setStyle(this.secondaryButtonStyle);
         toggleBtn.setOnMouseEntered(ev -> toggleBtn.setStyle(this.secondaryButtonHoverStyle));
         toggleBtn.setOnMouseExited(ev -> toggleBtn.setStyle(this.secondaryButtonStyle));
 
-        Button disableBtn = new Button("Desconectar");
+        Button disableBtn = new Button("Disconnect");
         disableBtn.setStyle(this.dangerButtonStyle);
         disableBtn.setOnMouseEntered(ev -> disableBtn.setStyle(this.dangerButtonHoverStyle));
         disableBtn.setOnMouseExited(ev -> disableBtn.setStyle(this.dangerButtonStyle));
@@ -189,7 +189,7 @@ public class VpnRenderer {
 
             if (host.isEmpty()) {
                 feedbackLabel.setStyle("-fx-text-fill: #ff6b6b; -fx-font-size: 12px;");
-                feedbackLabel.setText("❌ O campo Host não pode estar vazio!");
+                feedbackLabel.setText("❌ Host field cannot be empty!");
                 return;
             }
 
@@ -201,7 +201,7 @@ public class VpnRenderer {
                 }
             } catch (NumberFormatException ex) {
                 feedbackLabel.setStyle("-fx-text-fill: #ff6b6b; -fx-font-size: 12px;");
-                feedbackLabel.setText("❌ Porta inválida! Digite um número de 1 a 65535.");
+                feedbackLabel.setText("❌ Invalid port! Enter a number between 1 and 65535.");
                 return;
             }
 
@@ -209,36 +209,36 @@ public class VpnRenderer {
             this.socks5.setEnabled(true);
 
             updateSocks5StatusLabel(s5Status);
-            toggleBtn.setText("Desativar Proxy");
+            toggleBtn.setText("Disable Proxy");
             feedbackLabel.setStyle("-fx-text-fill: #55ff55; -fx-font-size: 12px;");
-            feedbackLabel.setText("✅ Proxy SOCKS5 salvo e ativado: " + host + ":" + port + (this.socks5.hasAuth() ? " (com auth)" : ""));
+            feedbackLabel.setText("✅ SOCKS5 proxy saved & enabled: " + host + ":" + port + (this.socks5.hasAuth() ? " (with auth)" : ""));
         });
 
         toggleBtn.setOnAction(e -> {
             boolean newState = !this.socks5.isEnabled();
             this.socks5.setEnabled(newState);
             updateSocks5StatusLabel(s5Status);
-            toggleBtn.setText(newState ? "Desativar Proxy" : "Ativar Proxy");
+            toggleBtn.setText(newState ? "Disable Proxy" : "Enable Proxy");
             if (newState) {
                 feedbackLabel.setStyle("-fx-text-fill: #55ff55; -fx-font-size: 12px;");
-                feedbackLabel.setText("✅ Proxy SOCKS5 ativado!");
+                feedbackLabel.setText("✅ SOCKS5 proxy enabled!");
             } else {
                 feedbackLabel.setStyle("-fx-text-fill: #ffaa00; -fx-font-size: 12px;");
-                feedbackLabel.setText("⚠️ Proxy SOCKS5 desativado.");
+                feedbackLabel.setText("⚠️ SOCKS5 proxy disabled.");
             }
         });
 
         disableBtn.setOnAction(e -> {
             this.socks5.setEnabled(false);
             updateSocks5StatusLabel(s5Status);
-            toggleBtn.setText("Ativar Proxy");
+            toggleBtn.setText("Enable Proxy");
             feedbackLabel.setStyle("-fx-text-fill: #ff6b6b; -fx-font-size: 12px;");
-            feedbackLabel.setText("🛑 Proxy desativado.");
+            feedbackLabel.setText("🛑 Proxy disconnected.");
         });
 
         s5Buttons.getChildren().addAll(saveAndEnableBtn, toggleBtn, disableBtn);
 
-        Label hintLabel = new Label("💡 Salvo automaticamente em xynis_socks5.txt | Também configurável via comando: !socks5 host port [user] [pass]");
+        Label hintLabel = new Label("💡 Automatically saved to xynis_socks5.txt | Proxy is managed exclusively via this menu");
         hintLabel.setStyle("-fx-text-fill: rgba(160, 160, 160, 0.8); -fx-font-size: 11px;");
 
         s5Card.getChildren().addAll(s5Header, s5Status, s5Form, s5Buttons, feedbackLabel, hintLabel);
@@ -251,21 +251,21 @@ public class VpnRenderer {
                 + "-fx-border-color: rgba(255, 255, 255, 0.1); "
                 + "-fx-border-radius: 12px;");
 
-        Label vpnHeader = new Label("🌐 Cloudflare WARP & Proteção IP");
+        Label vpnHeader = new Label("🌐 Cloudflare WARP & IP Protection");
         vpnHeader.setFont(Font.font("Inter", FontWeight.BOLD, 17.0));
         vpnHeader.setStyle("-fx-text-fill: #ffffff;");
 
-        Label vpnStatus = new Label("VPN WARP: " + (this.vpnHelper.isEnabled() ? "CONECTADO" : "DESCONECTADO"));
+        Label vpnStatus = new Label("WARP VPN: " + (this.vpnHelper.isEnabled() ? "CONNECTED" : "DISCONNECTED"));
         vpnStatus.setStyle("-fx-text-fill: " + (this.vpnHelper.isEnabled() ? "#55ff55" : "rgba(180, 180, 180, 0.8)") + "; -fx-font-size: 13px; -fx-font-weight: bold;");
 
-        Label ipLabel = new Label("IP Local: " + this.vpnHelper.getDisplayIp());
+        Label ipLabel = new Label("Local IP: " + this.vpnHelper.getDisplayIp());
         ipLabel.setStyle("-fx-text-fill: rgba(220, 220, 220, 0.9); -fx-font-size: 13px;");
 
-        Label extIpLabel = new Label("IP Externo: " + (this.vpnHelper.fetchExternalIp() == null ? "desconhecido" : this.vpnHelper.fetchExternalIp()));
+        Label extIpLabel = new Label("External IP: " + (this.vpnHelper.fetchExternalIp() == null ? "unknown" : this.vpnHelper.fetchExternalIp()));
         extIpLabel.setStyle("-fx-text-fill: rgba(220, 220, 220, 0.9); -fx-font-size: 13px;");
 
         HBox vpnButtons = new HBox(10.0);
-        Button vpnToggle = new Button(this.vpnHelper.isEnabled() ? "Desconectar WARP" : "Conectar WARP");
+        Button vpnToggle = new Button(this.vpnHelper.isEnabled() ? "Disconnect WARP" : "Connect WARP");
         vpnToggle.setStyle(this.secondaryButtonStyle);
         vpnToggle.setOnMouseEntered(ev -> vpnToggle.setStyle(this.secondaryButtonHoverStyle));
         vpnToggle.setOnMouseExited(ev -> vpnToggle.setStyle(this.secondaryButtonStyle));
@@ -283,21 +283,21 @@ public class VpnRenderer {
             } else {
                 this.vpnHelper.toggleEnabled();
             }
-            vpnStatus.setText("VPN WARP: " + (this.vpnHelper.isEnabled() ? "CONECTADO" : "DESCONECTADO") + (this.vpnHelper.isWarpAvailable() ? " (WARP)" : ""));
+            vpnStatus.setText("WARP VPN: " + (this.vpnHelper.isEnabled() ? "CONNECTED" : "DISCONNECTED") + (this.vpnHelper.isWarpAvailable() ? " (WARP)" : ""));
             vpnStatus.setStyle("-fx-text-fill: " + (this.vpnHelper.isEnabled() ? "#55ff55" : "rgba(180, 180, 180, 0.8)") + "; -fx-font-size: 13px; -fx-font-weight: bold;");
-            vpnToggle.setText(this.vpnHelper.isEnabled() ? "Desconectar WARP" : "Conectar WARP");
-            ipLabel.setText("IP Local: " + this.vpnHelper.getDisplayIp());
+            vpnToggle.setText(this.vpnHelper.isEnabled() ? "Disconnect WARP" : "Connect WARP");
+            ipLabel.setText("Local IP: " + this.vpnHelper.getDisplayIp());
             String ext = this.vpnHelper.fetchExternalIp();
-            extIpLabel.setText("IP Externo: " + (ext == null ? "desconhecido" : ext));
+            extIpLabel.setText("External IP: " + (ext == null ? "unknown" : ext));
         });
 
-        ToggleButton hideIpToggle = new ToggleButton(this.vpnHelper.isHideIp() ? "Mostrar IP" : "Ocultar IP");
+        ToggleButton hideIpToggle = new ToggleButton(this.vpnHelper.isHideIp() ? "Show IP" : "Hide IP");
         hideIpToggle.setSelected(this.vpnHelper.isHideIp());
         hideIpToggle.setStyle(this.secondaryButtonStyle);
         hideIpToggle.setOnAction(e -> {
             this.vpnHelper.setHideIp(hideIpToggle.isSelected());
-            hideIpToggle.setText(this.vpnHelper.isHideIp() ? "Mostrar IP" : "Ocultar IP");
-            ipLabel.setText("IP Local: " + this.vpnHelper.getDisplayIp());
+            hideIpToggle.setText(this.vpnHelper.isHideIp() ? "Show IP" : "Hide IP");
+            ipLabel.setText("Local IP: " + this.vpnHelper.getDisplayIp());
         });
 
         vpnButtons.getChildren().addAll(vpnToggle, hideIpToggle);
@@ -309,10 +309,10 @@ public class VpnRenderer {
 
     private void updateSocks5StatusLabel(Label label) {
         if (this.socks5.isEnabled()) {
-            label.setText("Status: ATIVADO -> " + this.socks5.getHost() + ":" + this.socks5.getPort() + (this.socks5.hasAuth() ? " (auth: " + this.socks5.getUsername() + ")" : ""));
+            label.setText("Status: ENABLED -> " + this.socks5.getHost() + ":" + this.socks5.getPort() + (this.socks5.hasAuth() ? " (auth: " + this.socks5.getUsername() + ")" : ""));
             label.setStyle("-fx-text-fill: #55ff55; -fx-font-size: 13px; -fx-font-weight: bold;");
         } else {
-            label.setText("Status: DESATIVADO (Conexão direta sem proxy)");
+            label.setText("Status: DISABLED (Direct connection without proxy)");
             label.setStyle("-fx-text-fill: rgba(180, 180, 180, 0.7); -fx-font-size: 13px; -fx-font-weight: bold;");
         }
     }

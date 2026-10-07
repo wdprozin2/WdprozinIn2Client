@@ -36,8 +36,8 @@ public class Socks5Helper {
 
     public static void initHook() {
         try {
-            CommandManager.getManager().addCommands(new Socks5Command(), new us.whitedev.commands.impl.UpdateCommand());
-            System.out.println("[WdprozinIn2Client] SOCKS5 and Update commands registered successfully!");
+            CommandManager.getManager().addCommands(new us.whitedev.commands.impl.UpdateCommand());
+            System.out.println("[WdprozinIn2Client] Update command registered successfully! SOCKS5 is GUI-only.");
             us.whitedev.updater.AutoUpdater.getInstance().checkOnStartup();
         } catch (Exception e) {
             e.printStackTrace();
