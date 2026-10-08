@@ -12,11 +12,6 @@ A high-performance custom Minecraft client for advanced network analysis, protoc
 ## ✨ Release Highlights & Features (v6.3)
 
 - **Default Minecraft 1.21.1 Protocol**: Launches by default with protocol `1.21.1` (ViaLoadingBase 767) for out-of-the-box compatibility with modern Paper, Purpur, Spigot, and BungeeCord servers.
-- **Apple HIG Elevated UI Design**: Complete redesign following Apple Human Interface Guidelines:
-  - Frosted translucent dark acrylic styling (`#0d0e15`) with nested 18px radii.
-  - Vibrant accent borders synchronized with the active theme.
-  - 10px rounded navigation pills with clean active indicators.
-  - Crisp typography using SF Pro & Inter font hierarchy.
 - **Draggable Dynamic Island HUD Widget**:
   - Borderless translucent floating window (`StageStyle.TRANSPARENT`).
   - Real-time live metrics updated every 250ms:
