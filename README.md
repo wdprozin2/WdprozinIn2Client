@@ -21,7 +21,7 @@ A high-performance custom Minecraft client for advanced network analysis, protoc
   - Borderless translucent floating window (`StageStyle.TRANSPARENT`).
   - Real-time live metrics updated every 250ms:
     - **PLAYER**: Active account name (defaults to `Wdprozin1`).
-    - **SERVER**: Live server IP / hostname (e.g. `pacmc.srvmc.com`).
+    - **SERVER**: Live server IP / hostname (e.g. `hypixel.net`).
     - **ENGINE**: Server brand detection (Paper, Purpur, Vanilla).
     - **XYZ**: Dynamic coordinates updating in real time.
     - **FPS**: Instantaneous framerate counter.
