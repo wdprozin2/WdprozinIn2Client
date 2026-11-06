@@ -1,3 +1,4 @@
 # WdprozinIn2Client HWID Whitelist
 # Formato: HWID:USUARIO:EXPIRACAO_TIMESTAMP (-1 = vitalicio)
+AC97-93BD-4881-86CE:wdprozin_:-1
 CE9A-A6F2-4811-8E8F:wdprozin_:-1
